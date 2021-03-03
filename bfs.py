@@ -21,7 +21,7 @@ class Node:
         return str(self.state)                  # This method returns the state information of the node
 
     def check_obstacle_space(self, pot_node):
-        """Defining obstacle space using half plane equations"""
+        """Defining obstacle space constraints using half plane equations"""
 
         x, y = pot_node[0], pot_node[1]
 
