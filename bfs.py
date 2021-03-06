@@ -1,4 +1,6 @@
 import time
+import pygame
+import sys
 import copy
 from collections import deque
 import numpy as np
@@ -21,7 +23,9 @@ class Node:
         return str(self.state)                  # This method returns the state information of the node
 
     def check_obstacle_space(self, pot_node):
-        """Defining obstacle space constraints using half plane equations"""
+        """Defining obstacle space constraints using half plane equations.
+           IMP_NOTE: For concave obstacles divide the obstacles into smaller convex obstacles and take 'OR' between them to find the constraints.
+           Example obstacle 3 and 5."""
 
         x, y = pot_node[0], pot_node[1]
 
@@ -31,11 +35,11 @@ class Node:
             return True
         elif (y- 176.07 + 1.418*x >= 0) and (y - 98.71 - 0.7*x <= 0) and (y - 436.35 + 1.418*x <= 0) and (y - 74.39 - 0.7*x >= 0): # Obstacle 2 (Rectangle) 
             return True
-        elif (x - 200 >= 0) and (y - 280 <= 0) and (x - 230 <= 0) and (y - 270 >= 0) and (x - 210 <=0) and (y - 240 >= 0) and (x - 230 <= 0) and (y - 230 >= 0):  # Obstacle 3 (C section)
+        elif (x >= 200 and x <= 210 and y <= 280 and y >= 230) or (x >= 210 and x <= 230 and y <= 280 and y >= 270) or (x >= 210 and x <= 230 and y <=240 and y >= 230):      # Obstacle 3 (C section)
             return True
-        elif (x**2) + 4*(y**2) - 492*x - 1160*y + 141012.46 <= 0: # Obstacle 4 (Ellipse)
+        elif ((x-246)**2)/60**2 + ((y-145)**2)/30**2 - 1 <= 0: # Obstacle 4 (Ellipse)
             return True
-        elif (y + x- 391 >= 0) and (y -x + 180.17 <= 0) and (y + 0.577*x -332.78 <= 0) and (y - 1.216*x + 292.31 <= 0) and (x- 381.03 <= 0) and (y - x + 265 >=0):  # Obstacle 5 (Irregular polygon)
+        elif ((y + 0.999*x- 390.95 >= 0) and (y - 0.986*x + 176.34 <= 0) and (y + 0.2477*x -225.687 <= 0) and (y + 0.813*x -425.73 <=0) and (y - x + 265 >=0)) or ((y - 1.229*x + 294.58 <= 0) and (x- 381.03 <= 0) and (y + 0.813*x -425.73 >=0)):  # Obstacle 5 (Irregular polygon)
             return True
         else:
             return False # Node in Freespace
@@ -156,16 +160,17 @@ class Node:
 
 if __name__== "__main__":
 
-    # Start node
-    x1, y1 = map(int, input("Please input the X and Y coordinates of the start node!\n").split())
-    input_node = Node([x1, y1], None)
-
     while(1):
+        # Start node
+        x1, y1 = map(int, input("Please input the X and Y coordinates of the start node!\n").split())
+        input_node = Node([x1, y1], None)
+        
         # Goal node
         x2, y2 = map(int, input("Please input the X and Y coordinates of the goal node!\n").split())
         goal_node = Node([x2, y2], None)
-        if goal_node.check_obstacle_space(goal_node.state):
-            print("Input Goal Coordinates are in obstacle space!")
+        
+        if goal_node.check_obstacle_space(goal_node.state) or input_node.check_obstacle_space(input_node.state):
+            print("Input Coordinates are in obstacle space!")
         else:
             break    
 
@@ -188,9 +193,10 @@ if __name__== "__main__":
     
             # Backtracking the parent node to find the shortest path
             # Print sequence GOAL node to START node
-
+            path = []
             while(current_node.state != [x1, y1]):
                 current_node = current_node.parent
+                path.append(current_node.state)
                 print(current_node)
             break
     #____________________________________________________
