@@ -209,3 +209,34 @@ if __name__== "__main__":
                 queue.append(child)
 
     print("Execution time", time.time()-t)
+
+#______________________Pygame Animation_________________________
+    print("Running pygame animation..................")
+    pygame.init()
+    screen = pygame.display.set_mode((400, 300))
+    counter = 0
+    while True:
+
+        # Map Generation in pygame
+        screen.fill((0,0,0))
+        pygame.draw.circle(screen, (255,0,0), (90, 300-70), 35)
+        pygame.draw.polygon(screen, (255,0,0), ((48, 300-108), (36.53, 300-124.38),(159.4 ,300-210.416), (170.87, 300-194.036)))
+        pygame.draw.polygon(screen, (255,0,0), ((200,20),(230,20),(230,30),(210,30),(210,60), (230,60), (230, 70), (200, 70)))
+        pygame.draw.ellipse(screen, (255,0,0), ((186,125, 120, 60)))
+        pygame.draw.polygon(screen, (255,0,0), ((328, 300-63), (381.03, 300-116.03), (381.03, 300-171.03), (354, 300-138), (325.17, 300-145.01), (285.574, 300-105.42)))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        if counter ==0:
+            for state in visited_states:
+                # time.sleep(0.1)
+                print(state)        
+                pygame.draw.circle(screen, (255,255,255), (state[0], 300-state[1]), 1) 
+                pygame.display.update()
+                    
+            for state in path:
+                pygame.draw.circle(screen, (0,0,255), (state[0], 300-state[1]), 1)
+            pygame.display.update()
+        counter +=1    
