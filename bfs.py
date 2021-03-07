@@ -39,7 +39,7 @@ class Node:
             return True
         elif ((x-246)**2)/60**2 + ((y-145)**2)/30**2 - 1 <= 0: # Obstacle 4 (Ellipse)
             return True
-        elif ((y + 0.999*x- 390.95 >= 0) and (y - 0.986*x + 176.34 <= 0) and (y + 0.2477*x -225.687 <= 0) and (y + 0.813*x -425.73 <=0) and (y - x + 265 >=0)) or ((y - 1.229*x + 294.58 <= 0) and (x- 381.03 <= 0) and (y + 0.813*x -425.73 >=0)):  # Obstacle 5 (Irregular polygon)
+        elif ((y + 0.99985*x- 390.95 >= 0) and (y - 0.9866*x + 176.339 <= 0) and (y + 0.2477*x -225.6869 <= 0) and (y + 0.8128*x -425.7314 <=0) and (y - x + 265 >=0)) or ((y - 1.229*x + 294.58 <= 0) and (x- 381.03 <= 0) and (y + 0.8128*x -425.7314 >=0)):  # Obstacle 5 (Irregular polygon)
             return True
         else:
             return False # Node in Freespace
